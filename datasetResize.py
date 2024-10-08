@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.io
-from scipy import signal
+import scipy.interpolate
 
 
 class ECGResizing:
@@ -27,7 +27,16 @@ class ECGResizing:
 
 
     def interpolate_signal(self, signal):
-        return signal.resample(signal, self.target_length)
+            if len(signal) == 0:
+                return np.zeros(self.target_length)  # renvoie un tableau de zéros si le signal est vide
+
+            x = np.arange(len(signal))  # indices d'origine
+            x_new = np.linspace(0, len(signal) - 1, self.target_length)  # nouveaux indices
+            
+            interpolator = scipy.interpolate.interp1d(x, signal, kind='linear', fill_value='extrapolate')
+            return interpolator(x_new)  # retourne le signal interpolé
+
+
 
 
     def resize_signal(self, signal, method='padding'):
