@@ -5,7 +5,7 @@ from scipy import signal
 
 class ECGResizing:
 
-    def __init__(self, target_length=None, window_size=None, step_size=None):
+    def __init__(self, target_length=None):
         self.target_length = target_length #longueur cible du signal
 
 
